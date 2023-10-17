@@ -21,7 +21,7 @@
 # ---------------------------------------- #
 
 # ---------------------------- #
-# REGION RESTRICTION
+# REGION RESTRICTIONS
 # ---------------------------- #
 
 data "aws_iam_policy_document" "restrict_regions" {
