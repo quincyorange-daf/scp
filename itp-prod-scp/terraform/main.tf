@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "restrict_regions" {
       variable = "aws:RequestedRegion"
 
       values = [
-        "us-east-1"
+        "ap-southeast-2"
       ]
     }
   }
@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "restrict_regions" {
 
 resource "aws_organizations_policy" "restrict_regions" {
   name        = "restrict_regions"
-  description = "Deny all regions except US East 1."
+  description = "Deny all regions except ap-southeast-2"
   content     = data.aws_iam_policy_document.restrict_regions.json
 }
 
