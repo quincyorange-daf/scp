@@ -33,7 +33,7 @@ jobs:
             # Use Git to find all directories that have changes
             git diff --name-only hc-feature | xargs -I {} dirname {} | sort -u | while read -r dir; do
               # Check if the directory or its subdirectories contain Terraform code
-              if [ -n "$(find "$dir" -type f -name main.tf)" ]; then
+              if [ -n "$(find "$dir" -type f -name *.tf)" ]; then
                 changed_directories+=("$dir")
               fi
             done
