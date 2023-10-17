@@ -5,7 +5,6 @@
 # ---------------------------- #
 # ALLOW ALL
 # ---------------------------- #
-
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -22,7 +21,7 @@
 # ---------------------------------------- #
 
 # ---------------------------- #
-# REGION RESTRICTION 
+# REGION RESTRICTIONS
 # ---------------------------- #
 
 data "aws_iam_policy_document" "restrict_regions" {
