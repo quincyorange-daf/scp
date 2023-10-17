@@ -31,9 +31,9 @@ jobs:
         run: |
           changed_directories=()
           # Use Git to find all directories that have changes
-          git diff --name-only origin/main | xargs -I {} dirname {} | sort -u | while read -r dir; do
+          git diff --name-only origin/hc-feature | xargs -I {} dirname {} | sort -u | while read -r dir; do
             # Check if the directory contains Terraform code (you can modify this condition as needed)
-            if [ -f "$dir/main.tf" ]; then
+            if [ -f "$dir/*.tf" ]; then
               changed_directories+=("$dir")
             fi
           done
