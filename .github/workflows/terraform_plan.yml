@@ -1,0 +1,69 @@
+name: "Terraform Apply"
+
+on:
+  push:
+    branches:
+      - hc-feature
+
+env:
+  AWS_REGION: ap-southeast-2
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  tf_code_check:
+    name: Terraform Validation and Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tf code in runner environment
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials Action For GitHub Actions
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GithubActionDeployment
+
+      - name: Find Changed Terraform Directories
+        run: |
+          changed_directories=()
+          # Use Git to find all directories that have changes
+          git diff --name-only origin/main | xargs -I {} dirname {} | sort -u | while read -r dir; do
+            # Check if the directory contains Terraform code (you can modify this condition as needed)
+            if [ -f "$dir/main.tf" ]; then
+              changed_directories+=("$dir")
+            fi
+          done
+          # Choose the first changed Terraform directory as the working directory
+          if [ ${#changed_directories[@]} -gt 0 ]; then
+            selected_directory="${changed_directories[0]}"
+            cd "$selected_directory"
+            echo "Selected Terraform directory: $selected_directory"
+          else
+            echo "No Terraform directories with changes found."
+          fi
+        shell: bash
+
+      - name: Setup Terraform CLI
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+
+      - name: Terraform init and validate
+        run: |
+          # Perform Terraform commands in the selected working directory
+          echo "** Running Terraform Init **"
+          terraform init
+
+          echo "** Running Terraform Format **"
+          terraform fmt
+
+          echo "** Running Terraform Validate **"
+          terraform validate
+          
+          # Perform Terraform commands in the selected working directory
+          echo "** Running Terraform Plan**"
+          terraform plan
