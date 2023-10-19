@@ -1,4 +1,4 @@
-name: "Terraform Apply"
+name: "Terraform Plan"
 
 on:
   push:
@@ -6,11 +6,15 @@ on:
       - hc-feature
 
 env:
-  AWS_REGION: ap-southeast-2
+    AWS_REGION: ap-southeast-2
 
 permissions:
-  id-token: write
-  contents: read
+    id-token: write   # This is required for requesting the JWT
+    contents: read    # This is required for actions/checkout
+
+defaults:
+  run:
+    working-directory: itp-prod-scp\terraform
 
 jobs:
   tf_code_check:
@@ -19,52 +23,27 @@ jobs:
     steps:
       - name: Checkout tf code in runner environment
         uses: actions/checkout@v3
-
       - name: Configure AWS Credentials Action For GitHub Actions
-        uses: aws-actions/configure-aws-credentials@v3
+        uses:  aws-actions/configure-aws-credentials@v1.7.0
         with:
-          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: GithubActionDeployment
-
-      - name: Find Changed Terraform Directories (Recursively)
-        run: |
-            changed_directories=()
-            # Use Git to find all directories that have changes
-            git diff --name-only hc-feature/*/* | xargs -I {} dirname {} | sort -u | while read -r dir; do
-              # Check if the directory or its subdirectories contain Terraform code
-              if [ -n "$(find "$dir" -type f -name *.tf)" ]; then
-                changed_directories+=("$dir")
-              fi
-            done
-            # Choose the first changed Terraform directory as the working directory
-            if [ ${#changed_directories[@]} -gt 0 ]; then
-              selected_directory="${changed_directories[0]}"
-              cd "$selected_directory"
-              echo "Selected Terraform directory: $selected_directory"
-            else
-              echo "No Terraform directories with changes found."
-            fi
-        shell: bash
-        
-
+              
       - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.1.7
-
+          terraform_version: 1.0.0
+    
       - name: Terraform init and validate
         run: |
-          # Perform Terraform commands in the selected working directory
           echo "** Running Terraform Init **"
           terraform init
-
-          echo "** Running Terraform Format **"
-          terraform fmt
-
+          
           echo "** Running Terraform Validate **"
           terraform validate
-          
-          # Perform Terraform commands in the selected working directory
-          echo "** Running Terraform Plan**"
+       
+      - name: Run Terraform plan
+        run: |
+          echo "** Running Terraform Plan **"
           terraform plan

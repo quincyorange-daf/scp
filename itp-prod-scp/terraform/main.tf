@@ -36,7 +36,9 @@ data "aws_iam_policy_document" "restrict_regions" {
       variable = "aws:RequestedRegion"
 
       values = [
-        "ap-southeast-2"
+        "ap-southeast-2",
+        "ap-southeast-4",
+        "US-east-1"
       ]
     }
   }
