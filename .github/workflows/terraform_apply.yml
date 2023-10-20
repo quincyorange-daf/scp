@@ -16,9 +16,8 @@ defaults:
        run:
         working-directory: itp-prod-scp\terraform
     
-
+    
 jobs:
-
   tf_code_check:
     name: Terraform Validation and Build
     runs-on: ubuntu-latest
@@ -26,17 +25,17 @@ jobs:
       - name: Checkout tf code in runner environment
         uses: actions/checkout@v3
       - name: Configure AWS Credentials Action For GitHub Actions
-        uses:  aws-actions/configure-aws-credentials@v1.7.0
+        uses:  aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: GithubActionDeployment
-    
-    
+              
       - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.0.0
+            terraform_version: 1.1.7
+     
     
       - name: Terraform init and validate
         run: |
@@ -46,7 +45,6 @@ jobs:
           echo "** Running Terraform Validate **"
           terraform validate
        
-        
       - name: Terraform plan and apply
         run: |
             echo "** Running Terraform Plan**"
@@ -54,5 +52,5 @@ jobs:
             
             echo "** Running Terraform Apply**"
             terraform apply -auto-approve
-            continue-on-error: true
+            continue-on-error: false
     
