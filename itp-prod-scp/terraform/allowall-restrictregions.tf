@@ -39,11 +39,7 @@ data "aws_iam_policy_document" "restrict_regions" {
 
 resource "aws_organizations_policy" "restrict_regions" {
   name        = "restrict_regions"
-  description = "Deny all regions except ap-southeast-2"
+  description = "Deny all regions except approved"
   content     = data.aws_iam_policy_document.restrict_regions.json
 }
 
-resource "aws_organizations_policy_attachment" "restrict_regions_on_ou" {
-  policy_id = aws_organizations_policy.restrict_regions.id
-  target_id = data.aws_organizations_organizational_unit.TF_Test_OU.id
-}
