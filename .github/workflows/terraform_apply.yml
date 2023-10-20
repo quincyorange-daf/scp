@@ -14,7 +14,7 @@ permissions:
     
 defaults:
        run:
-        working-directory: itp-prod-scp\terraform
+        working-directory: itp-prod-scp/terraform
     
     
 jobs:
