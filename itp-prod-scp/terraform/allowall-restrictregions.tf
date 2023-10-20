@@ -1,15 +1,78 @@
 # ---------------------------------------- #
-# Service Control Policies for all accounts
+# Combined Service Control Policy
 # ---------------------------------------- #
-resource "aws_organizations_policy" "allow_all_policy" {
-  name        = "allow_all_policy"
-  description = "Allow all actions"
+resource "aws_organizations_policy" "combined_policy" {
+  name        = "combined_policy"
+  description = "Combined policy allowing specified services in us-east-1 and allowing all actions in ap-southeast-2 and ap-southeast-4"
   content = <<EOT
 {
   "Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
+      "Action": [
+        "a4b:*",
+        "acm:*",
+        "aws-marketplace-management:*",
+        "aws-marketplace:*",
+        "aws-portal:*",
+        "awsbillingconsole:*",
+        "budgets:*",
+        "ce:*",
+        "chime:*",
+        "cloudfront:*",
+        "cloudtrail:*",
+        "cloudwatch:*",
+        "config:*",
+        "cur:*",
+        "directconnect:*",
+        "ec2:DescribeRegions",
+        "ec2:DescribeTransitGateways",
+        "ec2:DescribeVpnGateways",
+        "fms:*",
+        "globalaccelerator:*",
+        "health:*",
+        "iam:*",
+        "importexport:*",
+        "kms:*",
+        "mobileanalytics:*",
+        "networkmanager:*",
+        "organizations:*",
+        "pricing:*",
+        "route53:*",
+        "route53domains:*",
+        "s3:*",
+        "s3:GetAccountPublic*",
+        "s3:ListAllMyBuckets",
+        "s3:PutAccountPublic*",
+        "shield:*",
+        "sts:*",
+        "support:*",
+        "trustedadvisor:*",
+        "waf-regional:*",
+        "waf:*",
+        "wafv2:*",
+        "wellarchitected:*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1"
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": ["ap-southeast-2", "ap-southeast-4"]
+        }
+      }
+    },
+    {
+      "Effect": "Deny",
       "Action": "*",
       "Resource": "*"
     }
@@ -17,29 +80,3 @@ resource "aws_organizations_policy" "allow_all_policy" {
 }
 EOT
 }
-
-# ---------------------------------------- #
-# REGION RESTRICTIONS
-# ---------------------------------------- #
-
-data "aws_iam_policy_document" "restrict_regions" {
-  statement {
-    sid       = "RegionRestriction"
-    effect    = "Deny"
-    actions   = ["*"]
-    resources = ["*"]
-
-    condition {
-      test     = "StringNotEquals"
-      variable = "aws:RequestedRegion"
-      values = ["ap-southeast-2", "ap-southeast-4", "us-east-1"]
-    }
-  }
-}
-
-resource "aws_organizations_policy" "restrict_regions" {
-  name        = "restrict_regions"
-  description = "Deny all regions except approved"
-  content     = data.aws_iam_policy_document.restrict_regions.json
-}
-
