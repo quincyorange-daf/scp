@@ -147,3 +147,4 @@ resource "aws_organizations_policy" "require_ec2_tags" {
 resource "aws_organizations_policy_attachment" "require_ec2_tags" {
   policy_id = aws_organizations_policy.require_ec2_tags.id
   target_id = var.target_id_client
+}
