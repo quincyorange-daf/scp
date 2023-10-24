@@ -1,15 +1,14 @@
 
 data "aws_iam_policy_document" "AllowAllResources" {
   statement {
-    sid = "AllowAllResources"
+    effect = "Allow"
     actions = ["*"]
     resources = ["*"]
-    effect = "Allow"
-   
-    condition {
-      test     = "StringEquals"
-      variable = "aws:RequestedRegion"
-      values   = ["ap-southeast-2", "ap-southeast-4"]
+ 
+  condition {
+    test     = "StringEquals"
+    variable = "aws:RequestedRegion"
+    values   = ["ap-southeast-2", "ap-southeast-4"]
     }
   }
 }
