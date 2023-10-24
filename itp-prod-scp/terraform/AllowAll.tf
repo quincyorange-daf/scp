@@ -19,9 +19,3 @@ resource "aws_organizations_policy" "AllowAll" {
   description = "Allow all resources in ap-southeast-2/4"
   content     = data.aws_iam_policy_document.AllowAllRecources.json
 }
-
-data "aws_organizations_organization" "org" {}
-
-data "aws_organizations_organizational_units" "ou" {
-  parent_id = data.aws_organizations_organization.org.roots[0].id
-}
