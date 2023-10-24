@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "restrict-regions" {
   }
 }
 
-resource "aws_organizations_policy" "restrict-regions" {
+resource "aws_organizations_policy" "RestrictRegions" {
   name        = "allow_global_regions"
   description = "Deny all regions except US East 1"
   content     = data.aws_iam_policy_document.restrict-regions.json
