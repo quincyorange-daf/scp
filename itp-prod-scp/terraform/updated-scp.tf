@@ -2,13 +2,21 @@
 # Service Control Policies for all accounts
 # ---------------------------------------- #
 
+
+
 # ---------------------------- #
 # REGION RESTRICTION 
 # ---------------------------- #
 
+data "aws_organizations_organization" "org" {}
+
+data "aws_organizations_organizational_units" "ou" {
+  parent_id = data.aws_organizations_organization.org.roots[0].id
+}
+
 data "aws_iam_policy_document" "restrict_regions" {
   statement {
-    sid       = "RegionRestriction"
+    sid = "RegionRestriction"
     actions   = ["*"]
     resources = ["*"]
     effect    = "Deny"
@@ -56,7 +64,7 @@ data "aws_iam_policy_document" "restrict_regions" {
 
 
     condition {
-      test     = "StringNotEquals"
+      test     = "StringNotEqualsIgnoreCase"
       variable = "aws:RequestedRegion"
 
       values = [
@@ -73,10 +81,22 @@ resource "aws_organizations_policy" "restrict_regions" {
   content     = data.aws_iam_policy_document.restrict_regions.json
 }
 
-resource "aws_organizations_policy_attachment" "restrict_regions_on_root" {
-  policy_id = aws_organizations_policy.restrict_regions.id
-  target_id = var.target_id_client
-}
+#Organization Account
+#resource "aws_organizations_policy_attachment" "account" {
+ # policy_id = aws_organizations_policy.example.id
+  #target_id = "123456789012"
+#}
+#Organization Root
+#resource "aws_organizations_policy_attachment" "root" {
+ # policy_id = aws_organizations_policy.example.id
+  #target_id = aws_organizations_organization.example.roots[0].id
+#}
+#Organization Unit
+#resource "aws_organizations_policy_attachment" "unit" {
+ # policy_id = aws_organizations_policy.example.id
+  #target_id = aws_organizations_organizational_unit.example.id
+#}
+
 
 # ---------------------------- #
 # REQUIRE EC2 TAGS 
@@ -110,7 +130,3 @@ resource "aws_organizations_policy" "require_ec2_tags" {
   content     = data.aws_iam_policy_document.require_ec2_tags.json
 }
 
-resource "aws_organizations_policy_attachment" "require_ec2_tags" {
-  policy_id = aws_organizations_policy.require_ec2_tags.id
-  target_id = var.target_id_client
-}
