@@ -2,7 +2,7 @@
 
 data "aws_iam_policy_document" "deny_all_resources" {
   statement {
-    sid       = "deny_all_resources"
+    sid       = "DenyAllResources"
     effect    = "Deny"
     actions   = ["*"]
     resources = ["*"]
