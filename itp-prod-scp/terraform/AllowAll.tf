@@ -1,5 +1,5 @@
 
-data "aws_iam_policy_document" "AllowAllRecources" {
+data "aws_iam_policy_document" "AllowAllResources" {
   statement {
     sid = "AllowAllResources"
     actions = ["*"]
@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "AllowAllRecources" {
 }
 
 resource "aws_organizations_policy" "AllowAll" {
-  name        = "allow_all_resources"
-  description = "Allow all resources in ap-southeast-2/4"
-  content     = data.aws_iam_policy_document.AllowAllRecources.json
+  name        = "AllowAllResources"
+  description = "Allow all resources in ap-southeast-2 and 4"
+  content     = data.aws_iam_policy_document.AllowAllResources.json
 }
