@@ -20,54 +20,12 @@ data "aws_iam_policy_document" "restrict-regions" {
     actions   = ["*"]
     resources = ["*"]
     effect    = "Deny"
-    not_actions = [
-        "a4b:*",
-        "acm:*",
-        "aws-marketplace-management:*",
-        "aws-marketplace:*",
-        "aws-portal:*",
-        "awsbillingconsole:*",
-        "budgets:*",
-        "ce:*",
-        "chime:*",
-        "cloudfront:*",
-        "cloudtrail:*",
-        "config:*",
-         "cur:*",
-        "directconnect:*",
-        "ec2:DescribeRegions",
-       "ec2:DescribeTransitGateways",
-       "ec2:DescribeVpnGateways",
-        "fms:*",
-        "globalaccelerator:*",
-        "health:*",
-        "iam:*",
-        "importexport:*",
-        "kms:*",
-         "networkmanager:*",
-        "organizations:*",
-        "pricing:*",
-        "route53:*",
-        "route53domains:*",
-        "s3:*",
-        "s3:GetAccountPublic*",
-        "s3:ListAllMyBuckets",
-        "s3:PutAccountPublic*",
-        "shield:*",
-        "sts:*",
-        "support:*",
-        "trustedadvisor:*",
-        "waf-regional:*",
-        "waf:*",
-        "wafv2:*",
-        "wellarchitected:*"]
+   
+  condition {
+    test     = "StringNotEqualsIgnoreCase"
+    variable = "aws:RequestedRegion"
 
-
-    condition {
-      test     = "StringNotEqualsIgnoreCase"
-      variable = "aws:RequestedRegion"
-
-      values = [
+    values = [
         "ap-southeast-2",
         "ap-southeast-4"
       ]
