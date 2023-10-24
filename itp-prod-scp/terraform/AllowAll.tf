@@ -17,5 +17,5 @@ data "aws_iam_policy_document" "AllowAllRecources" {
 resource "aws_organizations_policy" "AllowAll" {
   name        = "AllowAllResources"
   description = "Allow all resources in ap-southeast-2 and 4"
-  content     = data.aws_iam_policy_document.AllowAllRecources.json
+  content     = data.aws_iam_policy_document.AllowAllResources.json
 }
