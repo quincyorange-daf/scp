@@ -96,10 +96,7 @@ resource "aws_organizations_policy" "restrict_regions" {
  # policy_id = aws_organizations_policy.example.id
   #target_id = aws_organizations_organizational_unit.example.id
 #}
-resource "aws_organizations_policy_attachment" "restrict_regions_on_root" {
-  policy_id = aws_organizations_policy.restrict_regions.id
-  target_id = aws_organizations_organizational_unit.ou-gggb-taoatbmf.id
-}
+
 
 # ---------------------------- #
 # REQUIRE EC2 TAGS 
@@ -133,7 +130,3 @@ resource "aws_organizations_policy" "require_ec2_tags" {
   content     = data.aws_iam_policy_document.require_ec2_tags.json
 }
 
-resource "aws_organizations_policy_attachment" "require_ec2_tags" {
-  policy_id = aws_organizations_policy.require_ec2_tags.id
-  target_id = aws_organizations_organizational_unit.ou-gggb-taoatbmf.id
-}
