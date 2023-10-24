@@ -7,7 +7,7 @@ data "aws_iam_policy_document" "AllowAllRecources" {
     effect = "Allow"
    
     condition {
-      test     = "StringEqualsIgnoreCase"
+      test     = "StringEquals"
       variable = "aws:RequestedRegion"
       values   = ["ap-southeast-2", "ap-southeast-4"]
     }
