@@ -2,6 +2,8 @@
 # Service Control Policies for all accounts
 # ---------------------------------------- #
 
+
+
 # ---------------------------- #
 # REGION RESTRICTION 
 # ---------------------------- #
@@ -73,9 +75,24 @@ resource "aws_organizations_policy" "restrict_regions" {
   content     = data.aws_iam_policy_document.restrict_regions.json
 }
 
+#Organization Account
+#resource "aws_organizations_policy_attachment" "account" {
+ # policy_id = aws_organizations_policy.example.id
+  #target_id = "123456789012"
+#}
+#Organization Root
+#resource "aws_organizations_policy_attachment" "root" {
+ # policy_id = aws_organizations_policy.example.id
+  #target_id = aws_organizations_organization.example.roots[0].id
+#}
+#Organization Unit
+#resource "aws_organizations_policy_attachment" "unit" {
+ # policy_id = aws_organizations_policy.example.id
+  #target_id = aws_organizations_organizational_unit.example.id
+#}
 resource "aws_organizations_policy_attachment" "restrict_regions_on_root" {
   policy_id = aws_organizations_policy.restrict_regions.id
-  target_id = ou-gggb-taoatbmf
+  target_id = aws_organizations_organizational_unit.ou-gggb-taoatbmf.id
 }
 
 # ---------------------------- #
@@ -112,5 +129,5 @@ resource "aws_organizations_policy" "require_ec2_tags" {
 
 resource "aws_organizations_policy_attachment" "require_ec2_tags" {
   policy_id = aws_organizations_policy.require_ec2_tags.id
-  target_id = var.target_id_client
+  target_id = aws_organizations_organizational_unit.ou-gggb-taoatbmf.id
 }
