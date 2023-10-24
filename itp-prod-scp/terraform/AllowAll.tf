@@ -1,5 +1,5 @@
 
-data "aws_iam_policy_document" "AllowAllRecources" {
+data "aws_iam_policy_document" "AllowAllResources" {
   statement {
     sid = "AllowAllResources"
     actions = ["*"]
