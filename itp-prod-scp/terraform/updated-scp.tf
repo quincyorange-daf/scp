@@ -9,9 +9,51 @@
 data "aws_iam_policy_document" "restrict_regions" {
   statement {
     sid       = "RegionRestriction"
-    effect    = "Deny"
     actions   = ["*"]
     resources = ["*"]
+    effect    = "Deny"
+    not_actions = [
+        "a4b:*",
+        "acm:*",
+        "aws-marketplace-management:*",
+        "aws-marketplace:*",
+        "aws-portal:*",
+        "awsbillingconsole:*",
+        "budgets:*",
+        "ce:*",
+        "chime:*",
+        "cloudfront:*",
+        "cloudtrail:*",
+        "config:*",
+         "cur:*",
+        "directconnect:*",
+        "ec2:DescribeRegions",
+       "ec2:DescribeTransitGateways",
+       "ec2:DescribeVpnGateways",
+        "fms:*",
+        "globalaccelerator:*",
+        "health:*",
+        "iam:*",
+        "importexport:*",
+        "kms:*",
+         "networkmanager:*",
+        "organizations:*",
+        "pricing:*",
+        "route53:*",
+        "route53domains:*",
+        "s3:*",
+        "s3:GetAccountPublic*",
+        "s3:ListAllMyBuckets",
+        "s3:PutAccountPublic*",
+        "shield:*",
+        "sts:*",
+        "support:*",
+        "trustedadvisor:*",
+        "waf-regional:*",
+        "waf:*",
+        "wafv2:*",
+        "wellarchitected:*"]
+
 
     condition {
       test     = "StringNotEquals"
@@ -33,77 +75,6 @@ resource "aws_organizations_policy" "restrict_regions" {
 
 resource "aws_organizations_policy_attachment" "restrict_regions_on_root" {
   policy_id = aws_organizations_policy.restrict_regions.id
-  target_id = var.target_id_client
-}
-
-
-
-
-data "aws_iam_policy_document" "allow_global_regions" {
-  statement {
-    sid       = "allowglobal"
-    effect    = "Allow"
-    actions   = ["*"]
-    resources = [
-        "a4b:*",
-        "acm:*",
-        "aws-marketplace-management:*",
-        "aws-marketplace:*",
-        "aws-portal:*",
-        "awsbillingconsole:*",
-        "budgets:*",
-        "ce:*",
-        "chime:*",
-        "cloudfront:*",
-        "cloudtrail:*",
-        "cloudwatch:*",
-        "config:*",
-        "cur:*",
-        "directconnect:*",
-        "ec2:DescribeRegions",
-        "ec2:DescribeTransitGateways",
-        "ec2:DescribeVpnGateways",
-        "fms:*",
-        "globalaccelerator:*",
-        "health:*",
-        "iam:*",
-        "importexport:*",
-        "kms:*",
-        "mobileanalytics:*",
-        "networkmanager:*",
-        "organizations:*",
-        "pricing:*",
-        "route53:*",
-        "route53domains:*",
-        "s3:*",
-        "s3:GetAccountPublic*",
-        "s3:ListAllMyBuckets",
-        "s3:PutAccountPublic*",
-        "shield:*",
-        "sts:*",
-        "support:*",
-        "trustedadvisor:*",
-        "waf-regional:*",
-        "waf:*",
-        "wafv2:*",
-        "wellarchitected:*"]
-
-   condition {
-      test = "StringEquals"
-      variable = "aws:RequestedRegion"
-      values = ["ap-southeast-1", "ap-southeast-4", "us-east-1"]
-    }
-  }
-}
-
-resource "aws_organizations_policy" "allow_global_regions" {
-  name        = "allow-global-regions"
-  description = "Allw us-east-1 region for global services."
-  content     = data.aws_iam_policy_document.allow_global_regions.json
-}
-
-resource "aws_organizations_policy_attachment" "allow_global_regions" {
-  policy_id = aws_organizations_policy.allow_global_regions.id
   target_id = var.target_id_client
 }
 
