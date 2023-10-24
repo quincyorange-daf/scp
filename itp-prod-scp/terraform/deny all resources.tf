@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "deny_all_resources" {
 
 #### create the policy and attach the policy rules ########
 
-resource "aws_organizations_policy" "deny_all_resources" {
+resource "aws_organizations_policy" "DenyAllResources" {
   name        = "deny_all_resources"
   description = "deny_all_resources"
   content     = data.aws_iam_policy_document.deny_all_resources.json
