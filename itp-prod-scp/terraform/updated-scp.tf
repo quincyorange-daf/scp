@@ -8,7 +8,7 @@
 
 data "aws_iam_policy_document" "restrict_regions" {
   statement {
-    sid       = "RegionRestriction"
+    sid = "RegionRestriction"
     actions   = ["*"]
     resources = ["*"]
     effect    = "Deny"
@@ -56,7 +56,7 @@ data "aws_iam_policy_document" "restrict_regions" {
 
 
     condition {
-      test     = "StringNotEquals"
+      test     = "StringNotEqualsIgnoreCase"
       variable = "aws:RequestedRegion"
 
       values = [
@@ -75,7 +75,7 @@ resource "aws_organizations_policy" "restrict_regions" {
 
 resource "aws_organizations_policy_attachment" "restrict_regions_on_root" {
   policy_id = aws_organizations_policy.restrict_regions.id
-  target_id = var.target_id_client
+  target_id = ou-gggb-taoatbmf
 }
 
 # ---------------------------- #
