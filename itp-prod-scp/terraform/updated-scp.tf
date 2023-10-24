@@ -14,7 +14,7 @@ data "aws_organizations_organizational_units" "ou" {
   parent_id = data.aws_organizations_organization.org.roots[0].id
 }
 
-data "aws_iam_policy_document" "restrict_regions" {
+data "aws_iam_policy_document" "restrict-regions" {
   statement {
     sid = "RegionRestriction"
     actions   = ["*"]
@@ -75,10 +75,10 @@ data "aws_iam_policy_document" "restrict_regions" {
   }
 }
 
-resource "aws_organizations_policy" "restrict_regions" {
+resource "aws_organizations_policy" "restrict-regions" {
   name        = "allow_global_regions"
-  description = "Deny all regions except US East 1."
-  content     = data.aws_iam_policy_document.restrict_regions.json
+  description = "Deny all regions except US East 1"
+  content     = data.aws_iam_policy_document.restrict-regions.json
 }
 
 #Organization Account
