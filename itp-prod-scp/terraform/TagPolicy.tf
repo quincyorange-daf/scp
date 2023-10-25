@@ -1,6 +1,6 @@
 resource "aws_organizations_policy" "TagsAppregid" {
   name = "TagsAppregid"
-  type = TAG_POLICY
+  type = "TAG_POLICY"
   content = <<CONTENT
 {
     "tags": {
