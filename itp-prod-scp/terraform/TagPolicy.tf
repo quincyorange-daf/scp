@@ -1,4 +1,4 @@
-resource "aws_organizations_policy" "tags_example" {
+resource "aws_organizations_policy" "tags_appregid" {
   name = "tags_example"
   type = TAG_POLICY
   content = <<CONTENT
