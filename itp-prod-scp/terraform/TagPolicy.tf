@@ -1,5 +1,5 @@
-resource "aws_organizations_policy" "tags_appregid" {
-  name = "tags_appregid"
+resource "aws_organizations_policy" "TagsAppregid" {
+  name = "TagsAppregid"
   type = TAG_POLICY
   content = <<CONTENT
 {
