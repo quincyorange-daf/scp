@@ -94,36 +94,3 @@ resource "aws_organizations_policy" "RestrictRegions" {
   #target_id = aws_organizations_organizational_unit.example.id
 #}
 
-
-# ---------------------------- #
-# REQUIRE EC2 TAGS 
-# ---------------------------- #
-
-data "aws_iam_policy_document" "require_ec2_tags" {
-  statement {
-    sid    = "RequireTag"
-    effect = "Deny"
-    actions = [
-      "ec2:RunInstances",
-      "ec2:CreateVolume"
-    ]
-    resources = [
-      "arn:aws:ec2:*:*:instance/*",
-      "arn:aws:ec2:*:*:volume/*"
-    ]
-
-    condition {
-      test     = "Null"
-      variable = "aws:RequestTag/Name"
-
-      values = ["true"]
-    }
-  }
-}
-
-resource "aws_organizations_policy" "require_ec2_tags" {
-  name        = "require_ec2_tags"
-  description = "Name tag is required for EC2 instances and volumes."
-  content     = data.aws_iam_policy_document.require_ec2_tags.json
-}
-
