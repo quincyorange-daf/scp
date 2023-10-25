@@ -114,9 +114,9 @@ data "aws_iam_policy_document" "require_ec2_tags" {
 
     condition {
       test     = "Null"
-      variable = "aws:RequestTag/Name"
+      variable = ["aws:RequestTag/APPREGID"]
 
-      values = ["true"]
+      values = ["APPREG****","APPREG0000"]
     }
   }
 }
