@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "restrict-regions" {
         "cloudfront:*",
         "cloudtrail:*",
         "config:*",
-         "cur:*",
+        "cur:*",
         "directconnect:*",
         "ec2:DescribeRegions",
         "ec2:DescribeTransitGateways",
@@ -67,7 +67,7 @@ data "aws_iam_policy_document" "restrict-regions" {
     effect    = "Deny"
    
   condition {
-    test     = "StringNotEqualsIgnoreCase"
+    test     = "StringNotLike"
     variable = "aws:RequestedRegion"
 
     values = [
