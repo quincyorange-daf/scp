@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "restrict-regions" {
         "aws-marketplace:*",
         "aws-portal:*",
         "awsbillingconsole:*",
-        "account:GetAccountInformation:*",
+        "account:GetAccountInformation",
         "budgets:*",
         "billing:*",
         "ce:*",
