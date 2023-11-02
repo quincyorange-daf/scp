@@ -1,8 +1,8 @@
 
 #***** deny access to create public facing S3 buckets *******
-data "aws_iam_policy_document" "deny_s3_logs" {
+data "aws_iam_policy_document" "denyS3logs" {
   statement {
-    sid       = "deny_s3_logs"
+    sid       = "denyS3logs"
     effect    = "Deny"
     actions   = [
                  "s3:DeleteBucket",
@@ -31,14 +31,8 @@ data "aws_iam_policy_document" "deny_s3_logs" {
 
 
 #### create the policy and attach the policy rules ########
-resource "aws_organizations_policy" "deny_s3_logs" {
-  name        = "deny_s3_logs"
+resource "aws_organizations_policy" "denyS3logs" {
+  name        = "DenyS3Logs"
   description = "Allow certain EC2 instance types only."
-  content     = data.aws_iam_policy_document.deny_s3_logs.json
+  content     = data.aws_iam_policy_document.denyS3logs.json
 }
-
- #### To attch policy on Organization Account ########
- resource "aws_organizations_policy_attachment" "deny_s3_logs" {
-   policy_id = aws_organizations_policy.deny_s3_logs.id  ## (Required) The unique identifier (ID) of the policy that you want to attach to the target.
-  target_id = "ou-g5q"  ## (Required) The unique identifier (ID) organizational unit, you want to attach the policy to.
- }
