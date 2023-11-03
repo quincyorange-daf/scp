@@ -16,5 +16,5 @@ data "aws_iam_policy_document" "PreventPublicS3Bucket" {
 resource "aws_organizations_policy" "PreventPublicS3Bucket" {
   name        = "PreventPublicS3Bucket"
   description = "Prevent public S3 bucket creation."
-  content = data.aws_iam_policy_document.PreventPublicS3Bucket.json
+  content     = data.aws_iam_policy_document.PreventPublicS3Bucket.json
 }

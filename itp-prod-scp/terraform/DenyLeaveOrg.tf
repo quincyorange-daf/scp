@@ -24,5 +24,5 @@ data "aws_iam_policy_document" "PreventLeavingAWSOrganization" {
 resource "aws_organizations_policy" "PreventLeavingAWSOrganization" {
   name        = "PreventLeavingAWSOrganization"
   description = "Deny the account from leaving the Organisation"
-  content = data.aws_iam_policy_document.PreventLeavingAWSOrganization.json
+  content     = data.aws_iam_policy_document.PreventLeavingAWSOrganization.json
 }
