@@ -21,10 +21,8 @@ data "aws_iam_policy_document" "PreventLeavingAWSOrganization" {
 
 
 #### create the policy and attach the policy rules ########
-resource "aws_organizations_policy" "deny_igw_org" {
+resource "aws_organizations_policy" "PreventLeavingAWSOrganization" {
   name        = "DenyIGWOrg"
   description = "Deny the account from leaving the Organisation"
-  content = [
-    data.aws_iam_policy_document.PreventLeavingAWSOrganization.json
-  ]
+  content = "data.aws_iam_policy_document.PreventLeavingAWSOrganization.json"
 }
