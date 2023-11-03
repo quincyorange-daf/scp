@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "allow-global-services" {
   statement {
-    sid = "allow-global-services"
+    sid = "AllowGlobalServices"
     not_actions = ["a4b:*",
       "acm:*",
       "aws-marketplace-management:*",
@@ -61,8 +61,8 @@ data "aws_iam_policy_document" "allow-global-services" {
   }
 }
 
-resource "aws_organizations_policy" "allow-global-services" {
-  name        = "allow-global-services"
+resource "aws_organizations_policy" "AllowGlobalServices" {
+  name        = "AllowGlobalServices"
   description = "Allow global services in us-east-1"
   content     = data.aws_iam_policy_document.allow-global-services.json
 }
