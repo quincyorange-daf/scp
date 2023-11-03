@@ -1,16 +1,6 @@
-# ---------------------------------------- # 
-# Service Control Policies for all accounts
-# ---------------------------------------- #
-
-
-
-# ---------------------------- #
-# REGION RESTRICTION 
-# ---------------------------- #
-
-data "aws_iam_policy_document" "restrict-regions" {
+data "aws_iam_policy_document" "allow-global-services" {
   statement {
-    sid = "RegionRestriction"
+    sid = "allow-global-services"
     not_actions = ["a4b:*",
       "acm:*",
       "aws-marketplace-management:*",
@@ -61,21 +51,20 @@ data "aws_iam_policy_document" "restrict-regions" {
     effect    = "Deny"
 
     condition {
-      test     = "StringNotLike"
+      test     = "StringLike"
       variable = "aws:RequestedRegion"
 
       values = [
-        "ap-southeast-2",
-        "ap-southeast-4"
+        "us-east-1"
       ]
     }
   }
 }
 
-resource "aws_organizations_policy" "RestrictRegions" {
-  name        = "allow_global_regions"
-  description = "Deny all regions except US East 1"
-  content     = data.aws_iam_policy_document.restrict-regions.json
+resource "aws_organizations_policy" "allow-global-services" {
+  name        = "allow-global-services"
+  description = "Allow global services in us-east-1"
+  content     = data.aws_iam_policy_document.allow-global-services.json
 }
 
 #Organization Account
