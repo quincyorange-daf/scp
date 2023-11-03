@@ -7,11 +7,8 @@ data "aws_iam_policy_document" "require_appreg_tags" {
       "ec2:RunInstances",
       "ec2:CreateVolume"
     ]
-    resources = [
-      "arn:aws:ec2:*:*:instance/*",
-      "arn:aws:ec2:*:*:volume/*"
-    ]
-
+    resources = "*"
+     
     condition {
       test     = "Null"
       variable = "aws:RequestTag/APPREGID"
