@@ -1,4 +1,4 @@
 variable "target_id_client" {
-    type = string
-    default = "ou-gggb-taoatbmf"
-        }
+  type    = string
+  default = "ou-gggb-taoatbmf"
+}

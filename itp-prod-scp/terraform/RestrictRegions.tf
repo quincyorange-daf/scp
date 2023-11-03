@@ -18,59 +18,59 @@ data "aws_iam_policy_document" "restrict-regions" {
   statement {
     sid = "RegionRestriction"
     not_actions = ["a4b:*",
-        "acm:*",
-        "aws-marketplace-management:*",
-        "aws-marketplace:*",
-        "aws-portal:*",
-        "awsbillingconsole:*",
-        "account:GetAccountInformation",
-        "budgets:*",
-        "billing:*",
-        "ce:*",
-        "chime:*",
-        "cloudfront:*",
-        "cloudtrail:*",
-        "config:*",
-        "cur:*",
-        "directconnect:*",
-        "ec2:DescribeRegions",
-        "ec2:DescribeTransitGateways",
-        "ec2:DescribeVpnGateways",
-        "fms:*",
-        "globalaccelerator:*",
-        "health:*",
-        "iam:*",
-        "importexport:*",
-        "invoicing:*",
-        "kms:*",
-        "networkmanager:*",
-        "organizations:*",
-        "pricing:*",
-        "payments:*",
-        "purchase-orders:*",
-        "tax:*",
-        "route53:*",
-        "route53domains:*",
-        "s3:*",
-        "s3:GetAccountPublic*",
-        "s3:ListAllMyBuckets",
-        "s3:PutAccountPublic*",
-        "shield:*",
-        "sts:*",
-        "support:*",
-        "trustedadvisor:*",
-        "waf-regional:*",
-        "waf:*",
-        "wafv2:*",
-        "wellarchitected:*"]
+      "acm:*",
+      "aws-marketplace-management:*",
+      "aws-marketplace:*",
+      "aws-portal:*",
+      "awsbillingconsole:*",
+      "account:GetAccountInformation",
+      "budgets:*",
+      "billing:*",
+      "ce:*",
+      "chime:*",
+      "cloudfront:*",
+      "cloudtrail:*",
+      "config:*",
+      "cur:*",
+      "directconnect:*",
+      "ec2:DescribeRegions",
+      "ec2:DescribeTransitGateways",
+      "ec2:DescribeVpnGateways",
+      "fms:*",
+      "globalaccelerator:*",
+      "health:*",
+      "iam:*",
+      "importexport:*",
+      "invoicing:*",
+      "kms:*",
+      "networkmanager:*",
+      "organizations:*",
+      "pricing:*",
+      "payments:*",
+      "purchase-orders:*",
+      "tax:*",
+      "route53:*",
+      "route53domains:*",
+      "s3:*",
+      "s3:GetAccountPublic*",
+      "s3:ListAllMyBuckets",
+      "s3:PutAccountPublic*",
+      "shield:*",
+      "sts:*",
+      "support:*",
+      "trustedadvisor:*",
+      "waf-regional:*",
+      "waf:*",
+      "wafv2:*",
+    "wellarchitected:*"]
     resources = ["*"]
     effect    = "Deny"
-   
-  condition {
-    test     = "StringNotLike"
-    variable = "aws:RequestedRegion"
 
-    values = [
+    condition {
+      test     = "StringNotLike"
+      variable = "aws:RequestedRegion"
+
+      values = [
         "ap-southeast-2",
         "ap-southeast-4"
       ]
@@ -86,17 +86,17 @@ resource "aws_organizations_policy" "RestrictRegions" {
 
 #Organization Account
 #resource "aws_organizations_policy_attachment" "account" {
- # policy_id = aws_organizations_policy.example.id
-  #target_id = "123456789012"
+# policy_id = aws_organizations_policy.example.id
+#target_id = "123456789012"
 #}
 #Organization Root
 #resource "aws_organizations_policy_attachment" "root" {
- # policy_id = aws_organizations_policy.example.id
-  #target_id = aws_organizations_organization.example.roots[0].id
+# policy_id = aws_organizations_policy.example.id
+#target_id = aws_organizations_organization.example.roots[0].id
 #}
 #Organization Unit
 #resource "aws_organizations_policy_attachment" "unit" {
- # policy_id = aws_organizations_policy.example.id
-  #target_id = aws_organizations_organizational_unit.example.id
+# policy_id = aws_organizations_policy.example.id
+#target_id = aws_organizations_organizational_unit.example.id
 #}
 

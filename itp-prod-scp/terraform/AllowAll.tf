@@ -10,6 +10,6 @@ data "aws_iam_policy_document" "allow_all_access" {
 
 resource "aws_organizations_policy" "AllowAll" {
   name        = "AllowAllResources"
-  description = "Allow all resources in ap-southeast-2 and 4"
+  description = "Allow all resources"
   content     = data.aws_iam_policy_document.allow_all_access.json
 }
