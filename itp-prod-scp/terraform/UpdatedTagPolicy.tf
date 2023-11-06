@@ -10,7 +10,6 @@ data "aws_iam_policy_document" "appreg_tags" {
       "ec2:RunInstances",
       "ec2:CreateVolume"
     ]
-    
     resources = ["*"]
 
     condition {

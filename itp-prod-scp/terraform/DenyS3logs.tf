@@ -24,7 +24,8 @@ data "aws_iam_policy_document" "denyS3logs" {
       "arn:aws:s3:::itp-daf-accounts-accesslogs",
       "arn:aws:s3:::itp-daf-accounts-config",
       "arn:aws:s3:::itp-daf-accounts-flowlogs",
-      "arn:aws:s3:::itp-daf-accounts-trails"
+      "arn:aws:s3:::itp-daf-accounts-trails",
+      "arn:aws:s3:::test620930051005"
     ]
   }
 }
