@@ -4,8 +4,7 @@ data "aws_iam_policy_document" "require_appreg_tags" {
     sid    = "RequireAppregTag"
     effect = "Deny"
     actions = [
-      "ec2:RunInstances",
-      "ec2:CreateVolume"
+      "*"
     ]
     resources = ["*"]
 
