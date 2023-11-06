@@ -1,0 +1,28 @@
+locals {
+  APPREGID = "^APPREG\\d{4}$" # Match "APPREG" followed by exactly four digits
+}
+
+data "aws_iam_policy_document" "require_appreg_tags" {
+  statement {
+    sid    = "RequireAppregTag"
+    effect = "Deny"
+    actions = [
+      "ec2:RunInstances",
+      "ec2:CreateVolume"
+    ]
+    resources = ["*"]
+
+    condition {
+      test     = "Null"
+      variable = "aws:RequestTag/APPREGID"
+
+      values = [local.APPREGID] # Wrap in a list
+    }
+  }
+}
+
+resource "aws_organizations_policy" "require_appreg_tags" {
+  name        = "require_appreg_tags"
+  description = "APPREGID tag is required for EC2 instances and volumes."
+  content     = data.aws_iam_policy_document.require_appreg_tags.json
+}
