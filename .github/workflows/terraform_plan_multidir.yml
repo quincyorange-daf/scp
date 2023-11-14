@@ -22,7 +22,7 @@ jobs:
     environment: ${{ matrix.env }}
     defaults:
       run:
-        working-directory: "./workspaces/${{ matrix.env }}"
+        working-directory: "./${{ matrix.env }}"
   
     steps:
       - name: Checkout code
