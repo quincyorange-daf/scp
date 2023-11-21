@@ -14,16 +14,14 @@ permissions:
 
 jobs:
   build-and-test:
-    name: Teeraform Plan
+    name: Terraform Plan
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
-      matrix: { env: ["itp-prod-scp", "itp-test-scp"] }
-    environment: ${{ matrix.env }}
-    defaults:
-      run:
-        working-directory: "./${{ matrix.env }}"
-  
+      matrix:
+        environment: ['itp-prod-scp','itp-test-scp']
+      fail-fast: true
+      max-parallel: 1
     steps:
       - name: Checkout tf code in runner environment
         uses: actions/checkout@v3
@@ -33,7 +31,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: GithubActionDeployment
-
+        
       - name: Setup Terraform CLI
         uses: hashicorp/setup-terraform@v2
         with:
