@@ -25,11 +25,10 @@ jobs:
         working-directory: "./${{ matrix.env }}"
   
     steps:
-      - name: Checkout code
+      - name: Checkout tf code in runner environment
         uses: actions/checkout@v3
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+      - name: Configure AWS Credentials Action For GitHub Actions
+        uses:  aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
