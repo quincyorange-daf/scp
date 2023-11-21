@@ -48,7 +48,7 @@ jobs:
             echo "** Running Terraform Validate **"
             terraform validate
 
-            echo"**Terraform format**"
+            echo "**Terraform format**"
             terraform fmt  
          
       - name: Run Terraform plan
