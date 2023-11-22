@@ -18,9 +18,9 @@ jobs:
       runs-on: ubuntu-latest
       timeout-minutes: 30
       strategy:
+        max-parallel: 1
         matrix: { env: ["itp-prod-scp", "itp-test-scp"] }
       environment: ${{ matrix.env }}
-      max-parallel: 1
       defaults:
         run:
           working-directory: "./${{ matrix.env }}"
