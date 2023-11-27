@@ -41,12 +41,12 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.1.7
-       
-      - name: Lint
-        needs:
+    
+  linters:      
+     - name: Lint
+       needs:
             - Terraform Plan
-          jobs:
-          tflint:
+       tflint:
               runs-on: ${{ matrix.os }}
                 
               strategy:
@@ -79,8 +79,8 @@ jobs:
                 - name: Run TFLint
                   run: tflint -f compact
   
-      - name: Terraform init and validate
-        run: |
+     - name: Terraform init and validate
+       run: |
             echo "** Running Terraform Init **"
             terraform init
               
@@ -90,9 +90,9 @@ jobs:
             echo "**Terraform format**"
             terraform fmt  
            
-      - name: Run Terraform plan
+     - name: Run Terraform plan
         run: |
-            echo "** Running Terraform Plan **"
-            terraform plan
+                echo "** Running Terraform Plan **"
+                terraform plan
   
 
