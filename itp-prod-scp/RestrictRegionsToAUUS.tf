@@ -8,8 +8,6 @@
 # REGION RESTRICTION 
 # ---------------------------- #
 
-data "aws_organizations_organization" "org" {}
-
 data "aws_iam_policy_document" "restrict-regions-to-au-us" {
   statement {
     sid       = "RegionRestriction"
