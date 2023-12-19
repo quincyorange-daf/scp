@@ -1,0 +1,93 @@
+name: "Terraform Plan"
+
+on:
+  push:
+    branches:
+      - hc-feature
+
+env:
+  AWS_REGION: ap-southeast-2
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      max-parallel: 1
+      matrix: { env: ["itp-prod-scp", "itp-test-scp"] }
+    environment:
+      name: ${{ matrix.env }}
+    
+    defaults:
+      run:
+        working-directory: "./${{ matrix.env }}"
+   
+    steps:
+      - name: Checkout tf code in runner environment
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials Action For GitHub Actions
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GithubActionDeployment
+        
+      - name: Setup Terraform CLI
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+    
+  tflint:      
+    needs: "build-and-test"
+    runs-on: ${{ matrix.os }}
+      
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+      
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout source code
+      
+      - uses: actions/cache@v3
+        name: Cache plugin dir
+        with:
+          path: ~/.tflint.d/plugins
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+      
+      - uses: terraform-linters/setup-tflint@v3
+        name: Setup TFLint
+        with:
+          tflint_version: v0.44.1
+      
+      - name: Show version
+        run: tflint --version
+      
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      
+      - name: Run TFLint
+        run: tflint -f compact
+
+      - name: Terraform init and validate
+        run: |
+              echo "** Running Terraform Init **"
+              terraform init
+              echo "** Running Terraform Validate **"
+              terraform validate
+              echo "**Terraform format**"
+              terraform fmt  
+
+      - name: Run Terraform plan
+        run: |
+              echo "** Running Terraform Plan **"
+              terraform plan
+
+
