@@ -1,16 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
-terraform {
-  required_version = "1.1.7"
-}
-
 data "aws_iam_policy_document" "require_appreg_tags" {
   statement {
     sid    = "RequireAppregTag"
