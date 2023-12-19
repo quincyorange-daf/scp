@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       max-parallel: 1
-      matrix: { env: ["itp-prod-scp/terraform", "itp-test-scp/terraform"] }
+      matrix: { env: ["itp-prod-scp", "itp-test-scp"] }
     environment:
       name: ${{ matrix.env }}
     
@@ -39,26 +39,14 @@ jobs:
         
       - name: Setup Terraform CLI
         uses: hashicorp/setup-terraform@v2
-        with:
+        with:   
           terraform_version: 1.1.7
-    
-  tflint:      
-    needs: "build-and-test"
-    runs-on: ${{ matrix.os }}
-      
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-      
-    steps:
-      - uses: actions/checkout@v3
-        name: Checkout source code
-      
+
       - uses: actions/cache@v3
         name: Cache plugin dir
         with:
           path: ~/.tflint.d/plugins
-          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+          key: ubuntu-latest-tflint-${{ hashFiles('.tflint.hcl') }}
       
       - uses: terraform-linters/setup-tflint@v3
         name: Setup TFLint
@@ -89,5 +77,8 @@ jobs:
         run: |
               echo "** Running Terraform Plan **"
               terraform plan
+
+  
+    
 
 
