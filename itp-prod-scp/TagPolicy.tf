@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+terraform {
+  required_version = "0.13.0"
+}
+
 data "aws_iam_policy_document" "require_appreg_tags" {
   statement {
     sid    = "RequireAppregTag"
