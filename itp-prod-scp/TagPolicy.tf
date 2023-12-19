@@ -8,7 +8,7 @@ terraform {
 }
 
 terraform {
-  required_version = "0.13.0"
+  required_version = "1.1.7"
 }
 
 data "aws_iam_policy_document" "require_appreg_tags" {
