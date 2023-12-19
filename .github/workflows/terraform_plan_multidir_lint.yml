@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       max-parallel: 1
-      matrix: { env: ["itp-prod-scp", "itp-test-scp"] }
+      matrix: { env: ["itp-prod-scp/terraform", "itp-test-scp/terraform"] }
     environment:
       name: ${{ matrix.env }}
     
