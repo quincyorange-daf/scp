@@ -25,7 +25,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: "./${{ matrix.env }}"
+        working-directory: "./${{ matrix.env }}/terraform"
    
     steps:
       - name: Checkout tf code in runner environment
