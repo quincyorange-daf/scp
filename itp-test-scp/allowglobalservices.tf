@@ -1,6 +1,9 @@
 terraform {
   required_version = ">= 1.7.0, < 2.0.0"
 }
+provider "aws" {
+  region = "ap-southeast-2"
+}
 
 data "aws_iam_policy_document" "allow-global-services-outside-aus" {
   statement {
