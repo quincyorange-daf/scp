@@ -6,7 +6,11 @@ terraform {
     }
   }
 }
-
 terraform {
-  required_version = "1.1.7"
+  required_version = ">= 1.7.0, < 2.0.0"
+}
+# updated provider
+
+provider "aws" {
+  region = "ap-southeast-2"
 }
