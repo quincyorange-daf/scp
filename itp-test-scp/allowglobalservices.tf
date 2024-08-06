@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 1.7.0, < 2.0.0"
+}
+
 data "aws_iam_policy_document" "allow-global-services-outside-aus" {
   statement {
     sid       = "AllowGlobalServicesOutsideAus"
@@ -116,3 +120,5 @@ resource "aws_organizations_policy" "allow-global-services-outside-aus-policy" {
   content     = data.aws_iam_policy_document.allow-global-services-outside-aus.json
   type        = "SERVICE_CONTROL_POLICY"
 }
+
+
