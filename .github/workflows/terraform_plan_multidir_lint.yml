@@ -3,7 +3,7 @@ name: "Terraform Plan"
 on:
   push:
     branches:
-      - hc-feature
+      - hc-feature*
 
 env:
   AWS_REGION: ap-southeast-2

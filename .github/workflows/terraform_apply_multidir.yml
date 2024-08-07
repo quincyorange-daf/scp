@@ -1,9 +1,9 @@
-name: "Terraform Plan"
+name: "Terraform Apply"
 
 on:
   push:
     branches:
-      - hc-feature
+      - hc-feature*
 
 env:
   AWS_REGION: ap-southeast-2
@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   build-and-test:
-    name: Terraform Plan
+    name: Terraform Apply
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
