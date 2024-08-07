@@ -68,6 +68,7 @@ jobs:
         run: |
               echo "** Running Terraform Init **"
               terraform init
+              terraform force-unlock 904a6602-597d-34c5-e493-f2d23b15d5fa
               echo "** Running Terraform Validate **"
               terraform validate
               echo "**Terraform format**"
