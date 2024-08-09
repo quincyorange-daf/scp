@@ -132,4 +132,4 @@ resource "aws_organizations_policy" "allow-global-services-outside-aus-policy" {
   type        = "SERVICE_CONTROL_POLICY"
 }
 
-#
+
