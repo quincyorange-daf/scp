@@ -131,5 +131,5 @@ resource "aws_organizations_policy" "allow-global-services-outside-aus-policy" {
   content     = data.aws_iam_policy_document.allow-global-services-outside-aus.json
   type        = "SERVICE_CONTROL_POLICY"
 }
-#
+
 
